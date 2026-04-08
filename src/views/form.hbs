@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -16,21 +16,28 @@
     <div class="form-container">
 
         <div class="form-card-container">
-            <form id="projectForm" class="form-card">
+            <form id="projectForm" class="form-card" method="post" action="/form-projects">
 
                 <h2>Add New Project</h2>
 
-                <input type="text" id="namaP" placeholder="Project Name">
-                <textarea id="deskripsiP" placeholder="Description"></textarea>
+                <input type="text" id="namaP" placeholder="Project Name" name="title">
+                <textarea id="deskripsiP" placeholder="Description" name="description"></textarea>
 
                 <input type="file" id="image" class="img-input">
 
-                <div class="label-project">
+                {{!-- <div class="label-project">
                     <label><input type="checkbox" id="nodeJs">Node JS</label>
                     <label><input type="checkbox" id="reactJs">React JS</label>
                     <label><input type="checkbox" id="nextJs">Next JS</label>
                     <label><input type="checkbox" id="typeSc">TypeScript</label>
-                </div>
+                </div> --}}
+                <select name="select" id="">
+                    <option value="node Js">node js</option>
+                    <option value="react js">react js</option>
+                    <option value="next js">next js</option>
+                </select>
+
+
 
                 <button type="submit">Add Project</button>
 
@@ -40,29 +47,38 @@
         <div class="hasil-container">
             <h2>My Project</h2>
             <input type="text" id="searchProject" class="serch" placeholder="Search Project">
+
             <div class="hasil-projects" id="projectList">
 
-                <!-- <div class="card-Projects">
+                {{#each projects}}
+
+                <div class="card-Projects">
                     <img src="" alt="">
-                    <h3>NAMA</h3>
+                    <h3>{{ title }}</h3>
                     <div class="des-container">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, aut. Quis, commodi. Quas esse
-                            reiciendis itaque tempora illo ea quibusdam tenetur! Delectus, quia! Dolores quae,
-                            architecto laborum voluptatum error corrupti</p>
+                        <p>{{ description}}</p>
                     </div>
-                    <p class="tech">Java Script</p>
+                    <p class="tech">{{select}}</p>
                     <div class="button-card-project">
-                        <button class="show-button">Show<i class="fa-regular fa-eye"></i></button>
-                        <button>Delet</button>
+                        <form action="show/{{id}}">
+                            <button class="show-button" type="submit">show<i
+                                    class="fa-regular fa-eye"></i></button>
+                        </form>
+                        <form action="/edit/{{id}}">
+                            <button type="submit" class="deleteProject">Edit</button>
+                        </form>
+                        <form action="/delet/{{id}}" method="post">
+                            <button type="submit" class="deleteProject" onclick="return confirm('apakah anda yakin ingen menghapus priject ini?')">Delet</button>
+                        </form>
                     </div>
                 </div>
-                 -->
+
+                {{/each}}
 
             </div>
         </div>
     </div>
 
-    <script src="../assets/script/fromUp.js"></script>
 
 
 </body>

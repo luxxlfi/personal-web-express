@@ -96,6 +96,7 @@ body {
     border-radius: 20px;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-family: "poppins";
 }
 
 .home-card img {
@@ -238,6 +239,7 @@ p {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
+    
 }
 
 .cardContac {
@@ -256,6 +258,8 @@ p {
 
 .cardContac label {
     margin-top: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .cardContac input {
@@ -362,7 +366,7 @@ p {
 
 }
 
-form button {
+form button .form-card {
     width: 100px;
     height: 40px;
     border-radius: 100px;

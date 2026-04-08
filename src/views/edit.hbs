@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <form id="projectForm" class="form-card" method="post" action="/edit/{{project.id}}">
+
+        <h2>Edit project</h2>
+
+        <input type="text" id="namaP" placeholder="Project Name" name="title" value="{{project.title}}">
+        
+        <input id="deskripsiP" placeholder="Description" name="description" value="{{project.description}}">
+
+        <input type="file" id="image" class="img-input">
+
+        <select name="select" id="">
+            <option value="node Js">node js</option>
+            <option value="react js">react js</option>
+            <option value="next js">next js</option>
+        </select>
+
+
+
+        <button type="submit">Add Project</button>
+
+    </form>
+</body>
+
+</html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
@@ -14,28 +14,31 @@
 
     <div class="containerCardContac">
         <div class="cardContac">
-            <h4>SARAN DAN MASUKAN</h4>
 
-            <label>Nama</label>
-            <input type="text" placeholder="Nama">
+            <form action="massage" method="post">
+                <h4>SARAN DAN MASUKAN</h4>
 
-            <label>Gmail</label>
-            <input type="email" placeholder="asdwasd@gmail.com">
+                <label>Nama</label>
+                <input type="text" name="nama" placeholder="Nama">
 
-            <label>Phone Number</label>
-            <input type="number" placeholder="081234567890">
+                <label>Gmail</label>
+                <input type="email" name="gmail" placeholder="asdwasd@gmail.com">
 
-            <label>Subject</label>
-            <select>
-                <option value="">opsi 1</option>
-                <option value="">opsi 2</option>
-                <option value="">opsi 3</option>
-            </select>
+                <label>Phone Number</label>
+                <input type="number" name="phone" placeholder="081234567890">
 
-            <label>your massage</label>
-            <textarea name="" id="" placeholder="text"></textarea>
+                <label>Subject</label>
+                <select>
+                    <option value="">opsi 1</option>
+                    <option value="">opsi 2</option>
+                    <option value="">opsi 3</option>
+                </select>
 
-            <button>SEND <i class="fa-solid fa-paper-plane"></i></button>
+                <label>your massage</label>
+                <textarea name="send" id="" placeholder="text"></textarea>
+
+                <button type="submit">SEND <i class="fa-solid fa-paper-plane"></i></button>
+            </form>
         </div>
     </div>
 </body>
