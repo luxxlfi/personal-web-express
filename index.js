@@ -174,16 +174,6 @@ app.post('/massage', (req, res) => {
   res.redirect('/about-me')
 })
 
-// projects
-
-// app.get ('/form-projects', (req,res) => {
-//   const projects = [
-//     {id: 1, title: 'project A', description: 'description A'}
-//   ];
-
-//   res.render('form', { projects });
-// });
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
