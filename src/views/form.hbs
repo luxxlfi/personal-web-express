@@ -16,7 +16,11 @@
 <body>
     {{> navbar}}
 
-
+    {{#if flash}}
+    <div class="alert alert-{{flash.type}}">
+        {{flash.message}}
+    </div>
+    {{/if}}
     <div class="form-container">
 
         <div class="form-card-container">
@@ -64,7 +68,7 @@
                     </div>
                     <p class="tech">{{select}}</p>
                     <div class="button-card-project">
-                        <form action="show/{{id}}">
+                        <form action="/show/{{id}}">
                             <button class="show-button" type="submit">show<i
                                     class="fa-regular fa-eye"></i></button>
                         </form>
