@@ -16,14 +16,25 @@
 <body>
     {{> navbar}}
 
-    {{#if flash}}
-    <div class="alert alert-{{flash.type}}">
-        {{flash.message}}
-    </div>
+    {{#if success}}
+    <div class="alert alert-success">{{success}}</div>
     {{/if}}
+
+    {{#if error}}
+    <div class="alert alert-error">{{error}}</div>
+    {{/if}}
+
     <div class="form-container">
 
+
+
         <div class="form-card-container">
+            {{#if user}}
+            <a>welcome, {{user.name}}</a>
+            {{else}}
+            <a href="/login">login <i class="fa-solid fa-user"></i></a>
+            {{/if}}
+
             <form id="projectForm" class="form-card" method="post" action="/form-projects">
 
                 <h2>Add New Project</h2>
@@ -69,14 +80,14 @@
                     <p class="tech">{{select}}</p>
                     <div class="button-card-project">
                         <form action="/show/{{id}}">
-                            <button class="show-button" type="submit">show<i
-                                    class="fa-regular fa-eye"></i></button>
+                            <button class="show-button" type="submit">show<i class="fa-regular fa-eye"></i></button>
                         </form>
                         <form action="/edit/{{id}}">
                             <button type="submit" class="deleteProject">Edit</button>
                         </form>
                         <form action="/delet/{{id}}" method="post">
-                            <button type="submit" class="deleteProject" onclick="return confirm('apakah anda yakin ingen menghapus priject ini?')">Delet</button>
+                            <button type="submit" class="deleteProject"
+                                onclick="return confirm('apakah anda yakin ingen menghapus priject ini?')">Delet</button>
                         </form>
                     </div>
                 </div>

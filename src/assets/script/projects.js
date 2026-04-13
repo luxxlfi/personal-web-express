@@ -10,23 +10,26 @@ export async function getProjects(req, res, db) {
     res.render("form", {
         projects: result.rows,
         title: "",
-        flash
+        flash,
+        user: req.session.user
     })
     console.log("SET FLASH:", req.session.flash);
-
 }
+
+
 export async function creatProjects(req, res, db) {
     try {
         const { title, description, image, tech } = req.body;
 
-        const query = "INSERT INTO projects (title, description, image, tech) VALUES ($1, $2, $3, $4) RETURNING *";
-        const values = [title, description, image, tech];
+        const author_id = req.session.user.id;
+
+        const query = "INSERT INTO projects (title, description, image, tech, author_id ) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+        const values = [title, description, image, tech, author_id];
         const result = await db.query(query, values);
 
-        req.session.flash = {
-            type: "success",
-            message: "Project di tambahkan"
-        };
+     
+
+        req.flash('success', 'project di tambah')
 
         console.log("project created", result.rows[0]);
         res.redirect("/form-projects");

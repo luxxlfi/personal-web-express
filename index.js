@@ -2,16 +2,19 @@ import express from 'express'
 import { engine } from 'express-handlebars';
 import { db } from "./config/database.js";
 
+
 import { getProjects, creatProjects } from './src/assets/script/projects.js';
 import hbs from 'hbs'
 
 import session from 'express-session';
+import { createUser, login } from './src/assets/script/auth.js';
+
+import flash from 'connect-flash';
+
+import { isAuthenticated } from './middleware/auth.js';
 
 
 
-
-// const hbs = require('hbs');
-// const { getProjects } = require('./src/assets/script/projects.js');
 const app = express()
 const port = 3000
 
@@ -21,28 +24,49 @@ app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'hbs');
 app.set('views', './src/views');
 
+// session
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 40,
+    httpOnly: true
+  }
 }
 ));
 
+// flash setup
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  res.locals.success = req.flash('success')[0];
+  res.locals.error = req.flash('error')[0];
+  next()
+})
+
+
 
 // partials
-
 hbs.registerPartials("./src/views/partials/")
 
 // midleware
 app.use('/assets', express.static('./src/assets'))
 
 
-// navbar
-app.get('/myHome', (req, res) => {
-  res.render('home', {
-    title: 'home page'
-  })
+// title
 
+
+app.get('/myHome', (req, res) => {
+  console.log("MASUK HOME");
+
+  // const flash = req.session.flash
+  // delete req.session.flash
+
+  res.render('home', {
+    title: 'home page',
+  })
 })
 
 app.get('/my-services', (req, res) => {
@@ -65,47 +89,13 @@ app.get('/about-me', (req, res) => {
 
 app.use(express.urlencoded({ extended: true }));
 
-
+// PROJECT
 
 let projects = []
 let projectId = 1
 
 app.get('/form-projects', async (req, res) => getProjects(req, res, db))
-
-// app.get('/form-projects', async (req, res) => {
-//   try {
-//     res.render('form', {
-//       projects: projects
-//     });
-//   } catch (error) {
-//     console.log('error', error);
-//     res.status(500).send('erorr loading projects');
-//   }
-// });
-
-// app.post('/form-projects', (req, res) => {
-//   const { title, description, select } = req.body;
-
-//   if (!title || !description) {
-//     return res.status(400).send('form blum di isi')
-//   }
-//   const newProject = {
-//     id: projectId++,
-//     title,
-//     description,
-//     select
-//   };
-
-//   projects.push(newProject)
-//   console.log('project di tambahkan', newProject);
-
-
-//   console.log(title, description);
-//   res.redirect('/form-projects')
-
-// })
-
-app.post('/form-projects', async (req, res) => creatProjects(req, res, db))
+app.post('/form-projects', isAuthenticated, (req, res) => creatProjects(req, res, db))
 
 app.get('/show/:id', async (req, res) => {
   console.log('nah ada nih');
@@ -123,15 +113,20 @@ app.get('/show/:id', async (req, res) => {
     res.render('show', { project })
 
   } catch (erorr) {
+
   }
 })
 
 app.get('/edit/:id', async (req, res) => {
   try {
     const { id } = req.params
+    const user = req.session.user.id
 
-    const query = "SELECT * FROM projects WHERE id = $1";
-    const result = await db.query(query, [id]);
+    const query = `
+      SELECT * FROM projects
+      WHERE id = $1 AND author_id = $2
+    `
+    const result = await db.query(query, [id, user]);
     const project = result.rows[0];
 
     if (!project) {
@@ -154,55 +149,50 @@ app.post('/edit/:id', async (req, res) => {
     const query = `
         UPDATE projects
         SET title = $1, description = $2
-        WHERE id = $3
+        WHERE id = $3 AND author_id = $4
         RETURNING *
       `;
 
-    const values = [title, description, id];
+    const values = [title, description, id, req.session.user.id];
     const result = await db.query(query, values);
 
 
     if (result.rows.length == 0) {
-      req.session.flash = {
-        type: "success",
-        message: "Project tidak ada"
-      };
+
+
+      req.flash('error', 'tidak d temukan')
       // return res.send('projects tidak di temukan');
     }
 
-    req.session.flash = {
-      type: "success",
-      message: "Project berhasil di edit"
-    };
+
+    req.flash('success', 'projects di edit')
 
     res.redirect('/form-projects')
-
-  } catch (erorr) {
+  } catch (error) {
     res.send("eror cuy")
   }
-
-
 });
 
 app.post('/delet/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const query = "DELETE FROM projects WHERE id = $1 RETURNING*";
-    const result = await db.query(query, [id]);
+    const query = `
+      DELETE FROM projects
+      WHERE id = $1 AND author_id = $2
+      RETURNING *
+    `
+    const result = await db.query(query, [id, req.session.user.id]);
 
     if (result.rows.length === 0) {
-      req.session.flash = {
-        type: "unsuccess",
-        message: "Project tidak di temukan"
-      };
-      return send('project tidak di temukan');
+      
+      req.flash('error', 'project tidak di temukan')
+
+      return res.send('project tidak di temukan');
     }
 
-    req.session.flash = {
-      type: "success",
-      message: "Project berhasil di hapus"
-    };
+  
+    req.flash('success', 'projects di hapus')
 
     res.redirect('/form-projects')
   } catch (error) {
@@ -229,5 +219,22 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+// register
+
+app.get('/register', (req, res) => {
+  res.render('register', {
+    title: 'register page'
+  })
+})
+
+app.post('/register', (req, res) => createUser(req, res, db))
+
+app.get('/login', (req, res) => {
+
+  res.render('login', {
+    title: 'login page',
+  })
+})
 
 
+app.post('/login', (req, res) => login(req, res, db));

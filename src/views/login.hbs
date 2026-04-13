@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container-login">
+        <h1>Login</h1>
+        {{#if success}}
+        <div class="alert alert-success">
+            {{success}}
+        </div>
+        {{/if}}
+        
+         {{#if error}}
+        <div class="alert alert-error">
+            {{error}}
+        </div>
+        {{/if}}
+
+        <form action="/login" method="post">
+            <div>
+                <input type="email" name="email" placeholder="qwerty@gmail.com" required>
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="XXXXXX" required>
+            </div>
+            <button type="submit">LOGIN</button>
+        </form>
+        <a href="/register"> Bleum punya ak</a>
+
+    </div>
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
         rel="stylesheet">
     <title>{{title}}</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body>
 
     {{> navbar}}
+
+    <div class="psan">
+        {{#if success}}
+        <div class="alert alert-success">{{success}}</div>
+        {{/if}}
+
+        {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+        {{/if}}
+    </div>
+
 
     <div class="home-container-content">
         <div class="home-content">
@@ -35,7 +47,7 @@
                 culpa assumenda odio saepe?
             </p>
             <p><i class="fa-solid fa-phone"></i>+628XXXXXXXXXX</p>
-                
+
         </div>
     </div>
 </body>
