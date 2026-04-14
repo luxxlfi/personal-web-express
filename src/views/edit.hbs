@@ -15,27 +15,28 @@
     <div class="edit">
         <form id="projectForm" class="form-card" method="post" action="/edit/{{project.id}}">
 
-        <h2>Edit project</h2>
+            <h2>Edit project</h2>
 
-        <input type="text" id="namaP" placeholder="Project Name" name="title" value="{{project.title}}">
+            <input type="text" id="namaP" placeholder="Project Name" name="title" value="{{project.title}}">
 
-        <input id="deskripsiP" placeholder="Description" name="description" value="{{project.description}}">
+            <input id="deskripsiP" placeholder="Description" name="description" value="{{project.description}}">
 
-        <input type="file" id="image" class="img-input">
-
-        <select name="select" id="">
-            <option value="node Js">node js</option>
-            <option value="react js">react js</option>
-            <option value="next js">next js</option>
-        </select>
+            <input type="file" name="image" accept="image/*" class="form-control">
 
 
+            <select name="select" id="">
+                <option value="node Js">node js</option>
+                <option value="react js">react js</option>
+                <option value="next js">next js</option>
+            </select>
 
-        <button type="submit">Add Project</button>
 
-    </form>
+
+            <button type="submit">Add Project</button>
+
+        </form>
     </div>
-    
+
 </body>
 
 </html>

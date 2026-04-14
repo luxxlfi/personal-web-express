@@ -9,15 +9,21 @@
 </head>
 
 <body>
+    <div class="container-Show_projects">
+        <a href="/form-projects" class="back-show">BACK</a>
+        <div class="card-show">
 
-    {{>navbar}}
+            {{#if project.image}}
+            <img src="/upload/{{project.image}}" style="width: 200px;" />
+            {{/if}}
+            <h3>{{project.title}}</h3>
 
-    <div class="card-show">
-        <h3>{{project.title}}</h3>
+            <p>{{project.description}}</p>
 
-        <p>{{project.description}}</p>
-        
-        <p>{{project.select}}</p>
+            <p>{{project.select}}</p>
+
+        </div>
+
     </div>
 
 </body>

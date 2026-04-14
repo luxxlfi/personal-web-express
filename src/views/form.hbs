@@ -35,14 +35,14 @@
             <a href="/login">login <i class="fa-solid fa-user"></i></a>
             {{/if}}
 
-            <form id="projectForm" class="form-card" method="post" action="/form-projects">
+            <form id="projectForm" class="form-card" method="post" action="/form-projects" enctype="multipart/form-data">
 
                 <h2>Add New Project</h2>
 
                 <input type="text" id="namaP" placeholder="Project Name" name="title">
                 <textarea id="deskripsiP" placeholder="Description" name="description"></textarea>
 
-                <input type="file" id="image" class="img-input">
+                <input type="file" name="image" accept="image/*" class="form-control">
 
                 {{!-- <div class="label-project">
                     <label><input type="checkbox" id="nodeJs">Node JS</label>
@@ -71,8 +71,11 @@
 
                 {{#each projects}}
 
-                <div class="card-Projects">
-                    <img src="" alt="">
+                <div class="card-Projects" style="width: 200px;">
+                    {{#if this.image}}
+                    <img src="/upload/{{this.image}}" />
+                    {{/if}}
+
                     <h3>{{ title }}</h3>
                     <div class="des-container">
                         <p>{{ description}}</p>
